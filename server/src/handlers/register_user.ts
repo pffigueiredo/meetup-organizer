@@ -16,8 +16,8 @@ export const registerUser = async (input: RegisterUserInput): Promise<AuthRespon
       throw new Error('User with this email already exists');
     }
 
-    // Hash password (simple hash for demo - in production use bcrypt)
-    const password_hash = Buffer.from(input.password).toString('base64');
+    // Hash password using Bun's built-in password hashing
+    const password_hash = await Bun.password.hash(input.password);
 
     // Insert new user
     const result = await db.insert(usersTable)
